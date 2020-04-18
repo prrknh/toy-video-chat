@@ -29,7 +29,10 @@ export const UseRoom = () => {
         stream: localStream,
       })
       newRoom.on('stream', async (stream) => {
+        console.log('received stream event')
+        console.log(stream)
         setRemoteStreamList(remoteStreamList.concat(stream))
+        console.log(remoteStreamList)
       })
       console.log(newRoom)
       setRoom(newRoom)

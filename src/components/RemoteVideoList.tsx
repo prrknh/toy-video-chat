@@ -1,20 +1,18 @@
+import { UseRoom } from './UseRoom'
+import RemoteVideo from './RemoteVideo'
 import React from 'react'
-import { UseRoom } from 'components/UseRoom'
 
 const RemoteVideoList = () => {
   const [, remoteStreamList] = UseRoom()
 
   return (
-    <ul>
-      {remoteStreamList.map(async (remoteStream, index) => {
+    <div>
+      {remoteStreamList.map((index) => {
         console.log(index)
-        const newVideo = document.createElement('video')
-        newVideo.srcObject = remoteStream
-        await newVideo.play().catch(console.error)
-        return newVideo
+        console.log('video item')
+        RemoteVideo(index)
       })}
-    </ul>
+    </div>
   )
 }
-
 export default RemoteVideoList
