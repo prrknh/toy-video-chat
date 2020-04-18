@@ -3,7 +3,8 @@ import React, { useEffect, useState, RefObject, Dispatch } from 'react'
 const initialiseCamera = async () =>
   await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
 
-export const useCamera = (videoRef: RefObject<HTMLVideoElement>) => {
+export const useCamera = (videoRef: RefObject<HTMLVideoElement> | null) => {
+  const [localStream, setLocalStream] = useState()
   const [isCameraInitialised, setIsCameraInitialised] = useState(false)
   const [video, setVideo] = useState<null | HTMLVideoElement>()
   const [error, setError] = useState('')
@@ -13,6 +14,9 @@ export const useCamera = (videoRef: RefObject<HTMLVideoElement>) => {
   ] = useState<boolean>(true)
 
   useEffect(() => {
+    if (!videoRef) {
+      return
+    }
     if (video || !videoRef.current) {
       return
     }
@@ -28,15 +32,20 @@ export const useCamera = (videoRef: RefObject<HTMLVideoElement>) => {
     initialiseCamera()
       .then((stream) => {
         video.srcObject = stream
+        setLocalStream(stream)
         setIsCameraInitialised(true)
       })
       .catch((e) => {
+        console.log(e)
         setError(e.message)
         setPlaying(false)
       })
   }, [video, isCameraInitialised, playing])
 
   useEffect(() => {
+    if (!videoRef) {
+      return
+    }
     const videoElement = videoRef.current
 
     if (!videoElement) {
@@ -50,5 +59,12 @@ export const useCamera = (videoRef: RefObject<HTMLVideoElement>) => {
     }
   }, [playing, videoRef])
 
-  return [video, isCameraInitialised, playing, setPlaying, error] as const
+  return [
+    localStream,
+    video,
+    isCameraInitialised,
+    playing,
+    setPlaying,
+    error,
+  ] as const
 }
