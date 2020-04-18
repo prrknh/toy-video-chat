@@ -4,7 +4,6 @@ const initialiseCamera = async () =>
   await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
 
 export const useCamera = (videoRef: RefObject<HTMLVideoElement> | null) => {
-  const [localStream, setLocalStream] = useState()
   const [isCameraInitialised, setIsCameraInitialised] = useState(false)
   const [video, setVideo] = useState<null | HTMLVideoElement>()
   const [error, setError] = useState('')
@@ -32,9 +31,6 @@ export const useCamera = (videoRef: RefObject<HTMLVideoElement> | null) => {
     initialiseCamera()
       .then((stream) => {
         video.srcObject = stream
-        setLocalStream(stream)
-        console.log('after set localStream')
-        console.log(localStream)
         setIsCameraInitialised(true)
       })
       .catch((e) => {
@@ -61,12 +57,5 @@ export const useCamera = (videoRef: RefObject<HTMLVideoElement> | null) => {
     }
   }, [playing, videoRef])
 
-  return [
-    localStream,
-    video,
-    isCameraInitialised,
-    playing,
-    setPlaying,
-    error,
-  ] as const
+  return [video, isCameraInitialised, playing, setPlaying, error] as const
 }

@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core'
 
 const MyVideo = () => {
   const videoRef = createRef<HTMLVideoElement>()
-  const [, , , running, setPlaying] = useCamera(videoRef)
+  const [, , running, setPlaying] = useCamera(videoRef)
 
   return (
     <div>
