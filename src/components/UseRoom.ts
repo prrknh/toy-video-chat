@@ -23,12 +23,13 @@ export const UseRoom = () => {
       debug: 3,
     })
     let newRoom
-    console.log('before open peer')
     console.log(localStream)
     const startRoom = async () => {
+      console.log('aync method start')
       return await navigator.mediaDevices
         .getUserMedia({ audio: true, video: true })
         .then((stream) => {
+          console.log('getUserMedia then now')
           peer.on('open', () => {
             newRoom = peer.joinRoom<SfuRoom>('hoge', {
               mode: 'sfu',
