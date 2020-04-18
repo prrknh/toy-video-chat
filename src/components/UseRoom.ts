@@ -28,6 +28,15 @@ export const UseRoom = () => {
         mode: 'sfu',
         stream: localStream,
       })
+
+      newRoom.once('open', () => {
+        console.log('open the room')
+      })
+      newRoom.on('error', console.error)
+      newRoom.on('log', (log) => console.log(log))
+      newRoom.on('peerJoin', (peerId) => {
+        console.log('peerJoin, peerId:{}', peerId)
+      })
       newRoom.on('stream', async (stream) => {
         console.log('received stream event')
         console.log(stream)
@@ -36,6 +45,7 @@ export const UseRoom = () => {
       })
       console.log(newRoom)
       setRoom(newRoom)
+      console.log('setRoom completed')
     })
     if (peer.open) {
       console.log('peer is not opened')
