@@ -33,6 +33,8 @@ export const useCamera = (videoRef: RefObject<HTMLVideoElement> | null) => {
       .then((stream) => {
         video.srcObject = stream
         setLocalStream(stream)
+        console.log('after set localStream')
+        console.log(localStream)
         setIsCameraInitialised(true)
       })
       .catch((e) => {
