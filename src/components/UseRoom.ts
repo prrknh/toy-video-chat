@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useCallback, useState } from 'react'
 import Peer, { SfuRoom } from 'skyway-js'
 import RemoteVideoList from './RemoteVideoList'
 
@@ -10,7 +10,7 @@ export const UseRoom = () => {
     Dispatch<SetStateAction<SfuRoom | null>>,
   ] = useState<SfuRoom | null>(null)
 
-  useEffect(() => {
+  useCallback(() => {
     if (roomId === '') {
       console.log('room id is empty')
       // return
