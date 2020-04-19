@@ -1,22 +1,22 @@
-import React, { useEffect, useRef } from 'react'
-import { UseRoom } from './UseRoom'
+import React, { RefObject, useEffect } from 'react'
+// import { UseRoom } from './UseRoom'
 
-const RemoteVideo = (index: number) => {
-  const [, remoteStreamList] = UseRoom()
-  const streamRef = useRef<HTMLVideoElement>(null)
+const RemoteVideo = (ref: RefObject<HTMLVideoElement>, stream: MediaStream) => {
+  // const [, remoteStreamList] = UseRoom()
+  // const streamRef = useRef<HTMLVideoElement>(null)
   useEffect(() => {
-    const currentRemoteStream = remoteStreamList[index]
-    if (!streamRef || !streamRef.current) {
+    // const currentRemoteStream = remoteStreamList[index]
+    if (!ref || !ref.current) {
       console.log('nothing')
       return
     }
-    console.log(streamRef.current)
-    streamRef.current.srcObject = currentRemoteStream
-    console.log(streamRef.current.srcObject)
+    console.log(ref.current)
+    ref.current.srcObject = stream
+    console.log(ref.current.srcObject)
     return
   })
 
-  return <video ref={streamRef} />
+  return <video ref={ref} id="hoge" />
 }
 
 export default RemoteVideo

@@ -1,5 +1,6 @@
 import { UseRoom } from './UseRoom'
 import React, { createRef, RefObject, useEffect, useState } from 'react'
+import RemoteVideo from './RemoteVideo'
 
 const RemoteVideoList = () => {
   const [, remoteStreamList] = UseRoom()
@@ -27,19 +28,20 @@ const RemoteVideoList = () => {
         })
       }
   */
-  const click = (e: any, index: number) => {
-    console.log(e, index)
-  }
+  // const click = (e: any, index: number) => {
+  //   console.log(e, index)
+  // }
 
   return (
     <div>
-      {remoteStreamList.map((_, index) => (
-        <video
-          ref={remoteVideoRefList[index]}
-          autoPlay={false}
-          onClick={(e) => click(e, index)}
-        />
-      ))}
+      {remoteStreamList.map((stream, index) =>
+        RemoteVideo(remoteVideoRefList[index], stream),
+        // <video
+        //   ref={remoteVideoRefList[index]}
+        //   autoPlay={false}
+        //   onClick={(e) => click(e, index)}
+        // />
+      )}
     </div>
   )
 }
