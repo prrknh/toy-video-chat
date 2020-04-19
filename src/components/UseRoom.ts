@@ -1,9 +1,10 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import Peer, { SfuRoom } from 'skyway-js'
+import RemoteVideoList from './RemoteVideoList'
 
 export const UseRoom = () => {
   const [roomId] = useState('')
-  const [remoteStreamList, setRemoteStreamList] = useState(new Array(0))
+  const [remoteStreamList, setRemoteStreamList] = useState(new Array(5))
   const [room, setRoom]: [
     SfuRoom | null,
     Dispatch<SetStateAction<SfuRoom | null>>,
@@ -45,7 +46,10 @@ export const UseRoom = () => {
             newRoom.on('stream', async (stream) => {
               console.log('received stream event')
               console.log(stream)
-              setRemoteStreamList(remoteStreamList.concat(stream))
+              console.log(stream)
+              console.log(Array(1).fill(stream))
+              remoteStreamList[0] = stream
+              setRemoteStreamList(remoteStreamList)
               console.log(remoteStreamList)
             })
             console.log(newRoom)
@@ -61,5 +65,6 @@ export const UseRoom = () => {
     }
     startRoom().then().catch(console.error)
   }, [roomId])
-  return [room, remoteStreamList] as const
+
+  return RemoteVideoList(remoteStreamList)
 }

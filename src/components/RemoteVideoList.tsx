@@ -1,9 +1,7 @@
-import { UseRoom } from './UseRoom'
 import React, { createRef, RefObject, useEffect, useState } from 'react'
 import RemoteVideo from './RemoteVideo'
 
-const RemoteVideoList = () => {
-  const [, remoteStreamList] = UseRoom()
+const RemoteVideoList = (remoteStreamList: MediaStream[]) => {
   const [remoteVideoRefList, setRemoteVideoRefList] = useState<
     RefObject<HTMLVideoElement>[]
   >([])
@@ -12,6 +10,7 @@ const RemoteVideoList = () => {
     console.log('remote video list use effect')
     setRemoteVideoRefList(
       remoteStreamList.map(() => {
+        console.log('remote map')
         const videoRef: RefObject<HTMLVideoElement> = createRef<
           HTMLVideoElement
         >()
@@ -20,6 +19,9 @@ const RemoteVideoList = () => {
         return videoRef
       }),
     )
+    console.log(remoteStreamList)
+    console.log(remoteVideoRefList)
+    console.log('end remote video list use effect')
   }, [remoteStreamList])
 
   /*
@@ -34,8 +36,8 @@ const RemoteVideoList = () => {
 
   return (
     <div>
-      {remoteStreamList.map((stream, index) =>
-        RemoteVideo(remoteVideoRefList[index], stream),
+      {remoteStreamList.map(
+        (stream, index) => RemoteVideo(remoteVideoRefList[index], stream),
         // <video
         //   ref={remoteVideoRefList[index]}
         //   autoPlay={false}
