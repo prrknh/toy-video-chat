@@ -68,3 +68,5 @@ export const UseRoom = () => {
 
   return RemoteVideoList(remoteStreamList)
 }
+
+export default UseRoom
