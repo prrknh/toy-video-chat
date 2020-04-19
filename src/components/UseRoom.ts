@@ -1,9 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import Peer, { SfuRoom } from 'skyway-js'
-import { useCamera } from './UseCamera'
 
 export const UseRoom = () => {
-  const [localStream] = useCamera(null)
   const [roomId] = useState('')
   const [remoteStreamList, setRemoteStreamList] = useState(new Array(0))
   const [room, setRoom]: [
@@ -12,9 +10,10 @@ export const UseRoom = () => {
   ] = useState<SfuRoom | null>(null)
 
   useEffect(() => {
-    // if (roomId === '') {
-    //   return
-    // }
+    if (roomId === '') {
+      console.log('room id is empty')
+      // return
+    }
     if (room) {
       return
     }
@@ -23,7 +22,6 @@ export const UseRoom = () => {
       debug: 3,
     })
     let newRoom
-    console.log(localStream)
     const startRoom = async () => {
       console.log('aync method start')
       return await navigator.mediaDevices
@@ -61,7 +59,7 @@ export const UseRoom = () => {
           }
         })
     }
-    startRoom().catch(console.error)
+    startRoom().then().catch(console.error)
   }, [roomId])
   return [room, remoteStreamList] as const
 }
