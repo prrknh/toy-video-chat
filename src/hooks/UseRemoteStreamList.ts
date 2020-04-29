@@ -9,7 +9,7 @@ export const useRemoteStreamList = () => {
 
   const removeStream = (peerId: string) => {
     setRemoteStreamList((remoteStreamList) =>
-      remoteStreamList.filter((stream) => stream.id != peerId),
+      remoteStreamList.filter((stream) => stream.id !== peerId),
     )
   }
 

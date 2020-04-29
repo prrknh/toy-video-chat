@@ -1,15 +1,9 @@
 import React from 'react'
-import 'App.css'
 import { Room } from './components/Room'
+import './index.css'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Room />
-      </header>
-    </div>
-  )
+  return <Room />
 }
 
 export default App
