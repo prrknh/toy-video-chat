@@ -1,13 +1,19 @@
 import React, { useEffect } from 'react'
 import Peer, { SfuRoom } from 'skyway-js'
-import { useCamera } from '../hooks/UseCamera'
 import { RemoteVideoList } from './RemoteVideoList'
 import { LocalVideo } from './LocalVideo'
 import { useRemoteStreamList } from '../hooks/UseRemoteStreamList'
 
+let localStream: MediaStream
+
 export const Room = () => {
-  const [localStream] = useCamera(null)
   const [addStream, , remoteStreamList] = useRemoteStreamList()
+
+  navigator.mediaDevices
+    .getUserMedia({ audio: true, video: true })
+    .then((stream) => {
+      localStream = stream
+    })
 
   useEffect(() => {
     const peer = new Peer({
@@ -16,9 +22,15 @@ export const Room = () => {
     })
     let newRoom
     peer.on('open', () => {
+      console.log('this is my localstream')
+      console.log(localStream)
       newRoom = peer.joinRoom<SfuRoom>('hoge', {
         mode: 'sfu',
         stream: localStream,
+      })
+      newRoom.on('peerJoin', (peerId) => {
+        console.log(peerId)
+        console.log('peerJoinnnnnnnn')
       })
       newRoom.on('stream', async (stream) => {
         console.log('receive stream')
