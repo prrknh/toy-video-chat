@@ -1,11 +1,12 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Peer, { SfuRoom } from 'skyway-js'
 import { useCamera } from '../hooks/UseCamera'
 import { RemoteVideoList } from './RemoteVideoList'
+import { LocalVideo } from './LocalVideo'
 import { useRemoteStreamList } from '../hooks/UseRemoteStreamList'
 
 export const Room = () => {
-  const [localStream, ,] = useCamera(null)
+  const [localStream] = useCamera(null)
   const [addStream, , remoteStreamList] = useRemoteStreamList()
 
   useEffect(() => {
@@ -31,5 +32,11 @@ export const Room = () => {
       return
     }
   }, [])
-  return RemoteVideoList(remoteStreamList)
+
+  return (
+    <div>
+      <LocalVideo />
+      {RemoteVideoList(remoteStreamList)}
+    </div>
+  )
 }

@@ -1,14 +1,12 @@
 import React from 'react'
 import 'App.css'
-import LocalVideo from 'components/LocalVideo'
-import RemoteVideoList from './components/RemoteVideoList'
+import { Room } from './components/Room'
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <LocalVideo></LocalVideo>
-        <RemoteVideoList></RemoteVideoList>
+        <Room />
       </header>
     </div>
   )
