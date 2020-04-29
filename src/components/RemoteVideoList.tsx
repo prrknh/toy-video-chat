@@ -1,15 +1,32 @@
-import React from 'react'
+import React, { createRef, RefObject, useEffect } from 'react'
 
 export const RemoteVideoList = (remoteStreamList: MediaStream[]) => {
+  let refList: RefObject<HTMLVideoElement>[] = Array(remoteStreamList.length)
+    .fill(null)
+    .map((_) => createRef<HTMLVideoElement>())
+
+  useEffect(() => {
+    refList = Array(remoteStreamList.length)
+      .fill(null)
+      .map((_, i) => {
+        const rel = refList[i]
+        if (rel.current) {
+          rel.current.srcObject = remoteStreamList[i]
+        }
+        return rel
+      })
+  }, [remoteStreamList])
+
   return (
-    <ul>
-      {remoteStreamList.map(async (remoteStream, index) => {
-        console.log(index)
-        const newVideo = document.createElement('video')
-        newVideo.srcObject = remoteStream
-        await newVideo.play().catch(console.error)
-        return newVideo
-      })}
-    </ul>
+    <div>
+      {remoteStreamList.map((_, i) => (
+        <video
+          onContextMenu={(event) => event.preventDefault()}
+          ref={refList[i]}
+          autoPlay
+          playsInline
+        />
+      ))}
+    </div>
   )
 }

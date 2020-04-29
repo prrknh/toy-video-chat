@@ -7,7 +7,7 @@ import { useRemoteStreamList } from '../hooks/UseRemoteStreamList'
 let localStream: MediaStream
 
 export const Room = () => {
-  const [addStream, , remoteStreamList] = useRemoteStreamList()
+  const [addStream, removeStream, remoteStreamList] = useRemoteStreamList()
 
   navigator.mediaDevices
     .getUserMedia({ audio: true, video: true })
@@ -18,23 +18,25 @@ export const Room = () => {
   useEffect(() => {
     const peer = new Peer({
       key: '4d7443bf-a5cb-499a-99be-d4e6b28da8a6',
-      debug: 3,
+      debug: 0,
     })
     let newRoom
     peer.on('open', () => {
-      console.log('this is my localstream')
-      console.log(localStream)
       newRoom = peer.joinRoom<SfuRoom>('hoge', {
         mode: 'sfu',
         stream: localStream,
       })
       newRoom.on('peerJoin', (peerId) => {
         console.log(peerId)
-        console.log('peerJoinnnnnnnn')
+        console.log('peer join!!!')
       })
       newRoom.on('stream', async (stream) => {
-        console.log('receive stream')
+        console.log('receive stream!!!')
         addStream(stream)
+      })
+      newRoom.on('peerLeave', (peerId) => {
+        console.log('peer leave!!!')
+        removeStream(peerId)
       })
       console.log(newRoom)
     })
