@@ -4,7 +4,7 @@ export const useRemoteStreamList = () => {
   const [remoteStreamList, setRemoteStreamList] = useState<MediaStream[]>([])
 
   const addStream = (stream: MediaStream) => {
-    setRemoteStreamList([...remoteStreamList, stream])
+    setRemoteStreamList((remoteStreamList) => [...remoteStreamList, stream])
   }
 
   const removeStream = (peerId: string) => {
