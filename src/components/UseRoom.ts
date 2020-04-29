@@ -1,23 +1,14 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Peer, { SfuRoom } from 'skyway-js'
-import { useCamera } from './UseCamera'
+import { useCamera } from '../hooks/UseCamera'
+import { RemoteVideoList } from './RemoteVideoList'
+import { useRemoteStreamList } from '../hooks/UseRemoteStreamList'
 
-export const UseRoom = () => {
+export const Room = () => {
   const [localStream, ,] = useCamera(null)
-  const [roomId] = useState('')
-  const [remoteStreamList, setRemoteStreamList] = useState(new Array(0))
-  const [room, setRoom]: [
-    SfuRoom | null,
-    Dispatch<SetStateAction<SfuRoom | null>>,
-  ] = useState<SfuRoom | null>(null)
+  const [addStream, , remoteStreamList] = useRemoteStreamList()
 
   useEffect(() => {
-    // if (roomId === '') {
-    //   return
-    // }
-    if (room) {
-      return
-    }
     const peer = new Peer({
       key: '4d7443bf-a5cb-499a-99be-d4e6b28da8a6',
       debug: 3,
@@ -29,16 +20,16 @@ export const UseRoom = () => {
         stream: localStream,
       })
       newRoom.on('stream', async (stream) => {
-        setRemoteStreamList(remoteStreamList.concat(stream))
+        console.log('receive stream')
+        addStream(stream)
       })
       console.log(newRoom)
-      setRoom(newRoom)
     })
     if (peer.open) {
       console.log('peer is not opened')
       console.log(peer)
       return
     }
-  }, [roomId])
-  return [room, remoteStreamList] as const
+  }, [])
+  return RemoteVideoList(remoteStreamList)
 }

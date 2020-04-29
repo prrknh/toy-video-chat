@@ -1,9 +1,6 @@
 import React from 'react'
-import { UseRoom } from 'components/UseRoom'
 
-const RemoteVideoList = () => {
-  const [, remoteStreamList] = UseRoom()
-
+export const RemoteVideoList = (remoteStreamList: MediaStream[]) => {
   return (
     <ul>
       {remoteStreamList.map(async (remoteStream, index) => {
@@ -16,5 +13,3 @@ const RemoteVideoList = () => {
     </ul>
   )
 }
-
-export default RemoteVideoList

@@ -1,8 +1,8 @@
 import React, { createRef } from 'react'
-import { useCamera } from 'components/UseCamera'
+import { useCamera } from 'hooks/UseCamera'
 import { Button } from '@material-ui/core'
 
-const MyVideo = () => {
+const LocalVideo = () => {
   const videoRef = createRef<HTMLVideoElement>()
   const [, , , running, setPlaying] = useCamera(videoRef)
 
@@ -23,4 +23,4 @@ const MyVideo = () => {
   )
 }
 
-export default MyVideo
+export default LocalVideo
