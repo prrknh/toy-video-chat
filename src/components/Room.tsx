@@ -3,19 +3,18 @@ import Peer from 'skyway-js'
 import { RemoteVideoList } from './RemoteVideoList'
 import { LocalVideo } from './LocalVideo'
 import { useRemoteStreamList } from '../hooks/UseRemoteStreamList'
-
-let localStream: MediaStream
+import Grid from '@material-ui/core/Grid'
 
 export const Room = () => {
   const [addStream, removeStream, remoteStreamList] = useRemoteStreamList()
 
-  navigator.mediaDevices
-    .getUserMedia({ audio: true, video: false })
-    .then((stream) => {
-      localStream = stream
-    })
-
   useEffect(() => {
+    let localStream: MediaStream
+    navigator.mediaDevices
+      .getUserMedia({ audio: true, video: false })
+      .then((stream) => {
+        localStream = stream
+      })
     const peer = new Peer({
       key: '4d7443bf-a5cb-499a-99be-d4e6b28da8a6',
       debug: 0,
@@ -49,8 +48,10 @@ export const Room = () => {
 
   return (
     <div>
-      <LocalVideo />
-      {RemoteVideoList(remoteStreamList)}
+      <Grid container spacing={5}>
+        <LocalVideo />
+        {RemoteVideoList(remoteStreamList)}
+      </Grid>
     </div>
   )
 }

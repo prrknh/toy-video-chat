@@ -1,4 +1,6 @@
 import React, { createRef, RefObject, useEffect } from 'react'
+import { Grid } from '@material-ui/core'
+import 'style/video.css'
 
 export const RemoteVideoList = (remoteStreamList: MediaStream[]) => {
   let refList: RefObject<HTMLVideoElement>[] = Array(remoteStreamList.length)
@@ -18,15 +20,18 @@ export const RemoteVideoList = (remoteStreamList: MediaStream[]) => {
   }, [remoteStreamList])
 
   return (
-    <div>
+    <React.Fragment>
       {remoteStreamList.map((_, i) => (
-        <video
-          onContextMenu={(event) => event.preventDefault()}
-          ref={refList[i]}
-          autoPlay
-          playsInline
-        />
+        <Grid item xs={12} sm={6}>
+          <video
+            className="video"
+            onContextMenu={(event) => event.preventDefault()}
+            ref={refList[i]}
+            autoPlay
+            playsInline
+          />
+        </Grid>
       ))}
-    </div>
+    </React.Fragment>
   )
 }
