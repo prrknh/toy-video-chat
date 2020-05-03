@@ -11,7 +11,7 @@ export const Room = () => {
   useEffect(() => {
     let localStream: MediaStream
     navigator.mediaDevices
-      .getUserMedia({ audio: true, video: false })
+      .getUserMedia({ audio: false, video: true })
       .then((stream) => {
         localStream = stream
       })

@@ -1,16 +1,22 @@
 import { useState } from 'react'
 
-export const useRemoteStreamList = () => {
-  const [remoteStreamList, setRemoteStreamList] = useState<MediaStream[]>([])
+class SkyWayMediaStream extends MediaStream {
+  peerId?: string
+}
 
-  const addStream = (stream: MediaStream) => {
+export const useRemoteStreamList = () => {
+  const [remoteStreamList, setRemoteStreamList] = useState<SkyWayMediaStream[]>(
+    [],
+  )
+
+  const addStream = (stream: SkyWayMediaStream) => {
     setRemoteStreamList((remoteStreamList) => [...remoteStreamList, stream])
   }
 
   const removeStream = (peerId: string) => {
-    setRemoteStreamList((remoteStreamList) =>
-      remoteStreamList.filter((stream) => stream.id !== peerId),
-    )
+    setRemoteStreamList((remoteStreamList) => {
+      return remoteStreamList.filter((stream) => stream.peerId !== peerId)
+    })
   }
 
   return [addStream, removeStream, remoteStreamList] as const

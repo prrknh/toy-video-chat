@@ -1,22 +1,18 @@
-import React, { createRef, RefObject, useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Grid } from '@material-ui/core'
 import 'style/video.css'
 
 export const RemoteVideoList = (remoteStreamList: MediaStream[]) => {
-  let refList: RefObject<HTMLVideoElement>[] = Array(remoteStreamList.length)
-    .fill(null)
-    .map((_) => createRef<HTMLVideoElement>())
+  const listRef = useRef<(HTMLVideoElement | null)[]>([])
 
   useEffect(() => {
-    refList = Array(remoteStreamList.length)
-      .fill(null)
-      .map((_, i) => {
-        const rel = refList[i]
-        if (rel.current) {
-          rel.current.srcObject = remoteStreamList[i]
-        }
-        return rel
-      })
+    console.log(remoteStreamList)
+    listRef.current = listRef.current.splice(0, remoteStreamList.length)
+    remoteStreamList.forEach((stream, i) => {
+      const currentRef: HTMLVideoElement | null = listRef.current[i]
+      if (currentRef == null) return
+      currentRef.srcObject = stream
+    })
   }, [remoteStreamList])
 
   return (
@@ -26,7 +22,7 @@ export const RemoteVideoList = (remoteStreamList: MediaStream[]) => {
           <video
             className="video"
             onContextMenu={(event) => event.preventDefault()}
-            ref={refList[i]}
+            ref={(el) => (listRef.current[i] = el)}
             autoPlay
             playsInline
           />
