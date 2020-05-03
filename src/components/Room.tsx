@@ -4,9 +4,16 @@ import { RemoteVideoList } from './RemoteVideoList'
 import { LocalVideo } from './LocalVideo'
 import { useRemoteStreamList } from '../hooks/UseRemoteStreamList'
 import Grid from '@material-ui/core/Grid'
+import useReactRouter from 'use-react-router'
 
 export const Room = () => {
+  const { history, location } = useReactRouter()
   const [addStream, removeStream, remoteStreamList] = useRemoteStreamList()
+
+  const roomId = location.search.replace('?', '')
+  if (roomId === '') {
+    history.push('/')
+  }
 
   useEffect(() => {
     let localStream: MediaStream
@@ -21,7 +28,7 @@ export const Room = () => {
     })
     let newRoom
     peer.on('open', () => {
-      newRoom = peer.joinRoom('hoge', {
+      newRoom = peer.joinRoom(roomId, {
         mode: 'sfu',
         stream: localStream,
       })
