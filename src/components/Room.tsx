@@ -54,7 +54,13 @@ export const Room = () => {
   }, [])
 
   return (
-    <Grid container justify="center" alignItems="center" spacing={3}>
+    <Grid
+      className="room"
+      container
+      justify="center"
+      alignItems="center"
+      spacing={3}
+    >
       <LocalVideo />
       {RemoteVideoList(remoteStreamList)}
     </Grid>

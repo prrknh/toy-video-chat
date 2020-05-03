@@ -18,7 +18,7 @@ export const RemoteVideoList = (remoteStreamList: MediaStream[]) => {
   return (
     <React.Fragment>
       {remoteStreamList.map((_, i) => (
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6} justify="center" alignItems="center">
           <video
             className="video"
             onContextMenu={(event) => event.preventDefault()}
